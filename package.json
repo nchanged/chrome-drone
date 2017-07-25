@@ -1,0 +1,28 @@
+{
+  "name": "chrome-drone",
+  "version": "0.0.1",
+  "description": "Autonomously control chrome",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "mocha --recursive --timeout 10000",
+    "test-wip": "mocha --grep WIP --recursive --timeout 10000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unbill/chrome-drone.git"
+  },
+  "author": "Legion",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/unbill/chrome-drone/issues"
+  },
+  "homepage": "https://github.com/unbill/chrome-drone#README",
+  "dependencies": {
+    "chrome-launcher": "^0.3.1",
+    "chrome-remote-interface": "^0.24.2"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.3.0"
+  }
+}

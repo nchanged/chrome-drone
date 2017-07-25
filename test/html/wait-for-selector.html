@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Wait For Selector Test</title>
+</head>
+<body>
+
+  <form action="">
+    <input id="some-button" type="button" value="Some Button" onclick="delayedAppearance()"/>
+  </form>
+
+  <div id="target"></div>
+
+  <script  type="text/javascript">
+    function delayedAppearance() {
+      setTimeout(function() {
+       let target = document.getElementById('target');
+        target.innerHTML = String.raw`<p name="lateGuy" id="result">Here I Am</p>`;
+      }, 100)
+    }
+  </script>
+</body>
+</html>

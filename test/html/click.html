@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Click Test Page</title>
+</head>
+<body>
+
+  <div id="button-results"></div>
+  <form action="">
+    <input id="target-button" type="button" value="Target Button" onclick="acknowledgeButtonClick()"/>
+  </form>
+
+  <script  type="text/javascript">
+    function acknowledgeButtonClick() {
+      document.getElementById("button-results").innerHTML = '<p id="success">Button successfully clicked<\/p>';
+    }
+  </script>
+</body>
+</html>

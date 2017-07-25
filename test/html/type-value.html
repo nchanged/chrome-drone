@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Type In Test Page</title>
+  </head>
+  <body>
+    <form action="">
+      Input: <input type="text" id="typing-test-input" onkeyup="updateDiv()">
+    </form>
+    <div id="output"></div>
+    <script type="text/javascript">
+      function updateDiv() {
+           let input = document.getElementById('typing-test-input')
+           let output = document.getElementById('output');
+           output.innerHTML = input.value;
+       }
+    </script>
+  </body>
+</html>

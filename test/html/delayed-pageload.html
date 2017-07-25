@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Delayed Page Load</title>
+</head>
+<body>
+
+  <form action="">
+    <input id="redirect-button" type="button" value="Redirect Button" onclick="redirectClick()"/>
+  </form>
+
+  <script  type="text/javascript">
+    function redirectClick() {
+      setTimeout(function() {
+        window.location.replace("./click-redirected.html");
+      }, 100)
+    }
+  </script>
+</body>
+</html>
