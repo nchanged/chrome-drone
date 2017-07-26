@@ -103,7 +103,8 @@ exports.enterIFrame = async (drone, selector) => {
   await drone.protocol.DOM.focus({nodeId: node.nodeId});
 };
 
-exports.saveScreenshot = async (drone, fileName) => {
-  const {data} = await drone.protocol.Page.captureScreenshot({format: 'png', fromSurface: true, quality: 100});
-  fs.writeFileSync(`${fileName}.png`, Buffer.from(data, 'base64'));
+exports.saveScreenshot = async (drone, fileName, setSize = false, viewportHeight = 1660, viewportWidth = 1440) => {
+  if (setSize) { await drone.protocol.Emulation.setVisibleSize({width: viewportWidth, height: viewportHeight}); }
+  const screenshot = await drone.protocol.Page.captureScreenshot({format: 'png', fromSurface: true});
+  fs.writeFileSync(`${fileName}.png`, Buffer.from(screenshot.data, 'base64'));
 };
