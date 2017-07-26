@@ -9,8 +9,8 @@ describe('Testing waiting for page load functionality:', () => {
   });
 
   afterEach(async () => {
-    drone.protocol.close();
-    drone.chrome.kill();
+    await drone.protocol.close();
+    await drone.chrome.kill();
   });
 
   it('Can successfully wait for page to load', async () => {

@@ -9,8 +9,8 @@ describe('Testing evaluate functionality:', () => {
   });
 
   afterEach(async () => {
-    drone.protocol.close();
-    drone.chrome.kill();
+    await drone.protocol.close();
+    await drone.chrome.kill();
   });
 
   it('Can successfully evaluate code in the drone', async () => {

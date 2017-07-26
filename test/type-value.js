@@ -9,8 +9,8 @@ describe('Testing typeValue functionality:', () => {
   });
 
   afterEach(async () => {
-    drone.protocol.close();
-    drone.chrome.kill();
+    await drone.protocol.close();
+    await drone.chrome.kill();
   });
 
   it('Drone can successfully type value in inputs', async () => {

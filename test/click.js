@@ -9,8 +9,8 @@ describe('Testing clicking functionality:', () => {
   });
 
   afterEach(async () => {
-    drone.protocol.close();
-    drone.chrome.kill();
+    await drone.protocol.close();
+    await drone.chrome.kill();
   });
 
   it('Can successfully setValue inputs in drone instance', async () => {

@@ -5,12 +5,12 @@ describe('Testing iframe functionality:', () => {
   let drone;
 
   beforeEach(async () => {
-    drone = await sut.createDrone({headless: false});
+    drone = await sut.createDrone({headless: true});
   });
 
   afterEach(async () => {
-    // drone.protocol.close();
-    // drone.chrome.kill();
+    await drone.protocol.close();
+    await drone.chrome.kill();
   });
 
   it('WIP Can successfully navigate into iframe', async () => {

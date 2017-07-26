@@ -9,8 +9,8 @@ describe('Testing waiting for selector functionality:', () => {
   });
 
   afterEach(async () => {
-    drone.protocol.close();
-    drone.chrome.kill();
+    await drone.protocol.close();
+    await drone.chrome.kill();
   });
 
   it('Can successfully wait for selector to exist', async () => {
