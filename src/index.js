@@ -98,16 +98,6 @@ exports.waitForSelector = async (drone, selector, intervalMS=250, timeoutMS=500)
   }
 };
 
-exports.enterIFrame = async (drone, selector) => {
-  const node = await querySelector(drone, selector);
-  const {object: frameNode} = await drone.protocol.DOM.resolveNode({nodeId: node.nodeId});
-  console.log(frameNode);
-  const objectId = frameNode.objectId;
-  const evalExpr = `() => { return (document.querySelector('#nested-heading').innerText)() }`;
-  await drone.protocol.Runtime.enable();
-  console.log(await drone.protocol.Runtime.callFunctionOn({ objectId: objectId, functionDeclaration: evalExpr }));
-};
-
 exports.saveScreenshot = async (drone, fileName, setSize = false, viewportHeight = 1660, viewportWidth = 1440) => {
   if (setSize) { await drone.protocol.Emulation.setVisibleSize({width: viewportWidth, height: viewportHeight}); }
   const screenshot = await drone.protocol.Page.captureScreenshot({format: 'png', fromSurface: true});
