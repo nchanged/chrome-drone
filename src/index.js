@@ -103,4 +103,10 @@ exports.saveScreenshot = async (drone, fileName, setSize = false, viewportHeight
   if (setSize) { await drone.protocol.Emulation.setVisibleSize({width: viewportWidth, height: viewportHeight}); }
   const screenshot = await drone.protocol.Page.captureScreenshot({format: 'png', fromSurface: true});
   fs.writeFileSync(`${fileName}.png`, Buffer.from(screenshot.data, 'base64'));
+/*
+ * Returns nothing. Saves html file of the current page using the provided fileName
+ */
+exports.saveHtml = async (drone, fileName) => {
+  const html = await module.exports.evaluate(drone, `document.body.innerHTML`);
+  fs.writeFileSync(fileName, html);
 };
