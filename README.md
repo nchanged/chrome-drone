@@ -31,14 +31,14 @@ stockPrice('QTWO')
 
 ## API
 
-`createDrone({headless = true, disableGPU = true, port = 0})`
-`goTo(drone, url)`
-`setValue(drone, selector, desiredValue)`
-`typeValue(drone, selector, value)`
-`click(drone, selector)`
-`evaluate(drone, jsToExecute)`
-`waitForPageLoad(drone)`
-`exist(drone, selector)`
-`waitForSelector(drone, selector, intervalMS=250, timeoutMS=500)`
-`saveScreenshot(drone, fileName, setSize = false, viewportHeight = 1660, viewportWidth = 1440)`
-`saveHtml(drone, fileName)`
+- createDrone({headless = true, disableGPU = true, port = 0})
+- goTo(drone, url)
+- setValue(drone, selector, desiredValue)
+- typeValue(drone, selector, value)
+- click(drone, selector)
+- evaluate(drone, jsToExecute)
+- waitForPageLoad(drone)
+- exist(drone, selector)
+- waitForSelector(drone, selector, intervalMS=250, timeoutMS=500)
+- saveScreenshot(drone, fileName, setSize = false, viewportHeight = 1660, viewportWidth = 1440)
+- saveHtml(drone, fileName)
