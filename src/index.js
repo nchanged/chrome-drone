@@ -14,7 +14,8 @@ exports.createDrone = async ({headless = true, disableGPU = true, port = 0}) => 
                            logLevel:     'error'};
   const chromeInstance  = await chromeLauncher.launch(chromeOptions);
   const remoteInterface = await CDP({port: chromeInstance.port});
-  await Promise.all([remoteInterface.Page.enable(), remoteInterface.Runtime.enable()]);
+  await Promise.all([remoteInterface.Page.enable(), remoteInterface.Runtime.enable(), remoteInterface.Network.enable()]);
+  remoteInterface.Network.setExtraHTTPHeaders({headers: {"Accept-Language": "en-US"}});
   return {chrome:   chromeInstance,
           protocol: remoteInterface,
           options:  {typeInterval: 20}};
