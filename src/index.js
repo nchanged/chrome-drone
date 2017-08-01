@@ -5,12 +5,16 @@ const { escapeCSSSelector,
         evaluateOnNode,
         querySelector,
         sleep }      = require('./utils');
-
+/*
+ * Returns a drone onbject that is required as the first parameter to all other
+ * functions. handleSIGINT must be false until the following issue is resoved
+ * https://github.com/GoogleChrome/lighthouse/issues/2797
+ */
 exports.createDrone = async ({headless = true, disableGPU = true, port = 0}) => {
   const chromeOptions   = {port:         port,
                            chromeFlags:  [headless   ? '--headless'    : '',
                                           disableGPU ? '--disable-gpu' : ''],
-                           handleSIGINT: true,
+                           handleSIGINT: false,
                            logLevel:     'error'};
   const chromeInstance  = await chromeLauncher.launch(chromeOptions);
   const remoteInterface = await CDP({port: chromeInstance.port});
