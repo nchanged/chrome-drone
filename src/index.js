@@ -82,10 +82,18 @@ exports.waitForPageLoad = async (drone) => {
   await drone.protocol.Page.loadEventFired();
 };
 
+/*
+ * Returns boolean indicating if selector is present on the page
+ */
 exports.exist = async (drone, selector) => {
   return await module.exports.evaluate(drone, `!!document.querySelector('${escapeCSSSelector(selector)}');`);
 };
 
+/*
+ * Returns nothing executed for the side effect of waiting for the provided selector
+ * The page is pulled every intervalMS to check if the selector is present. If the
+ * timeoutMS value is exceeded an error will be thrown.
+ */
 exports.waitForSelector = async (drone, selector, intervalMS=250, timeoutMS=500) => {
   const startTime = (new Date()).getTime();
   while (true) {
@@ -99,10 +107,15 @@ exports.waitForSelector = async (drone, selector, intervalMS=250, timeoutMS=500)
   }
 };
 
+/*
+ * Returns nothing. Saves screenshot of current page as a png using the provided fileName
+ */
 exports.saveScreenshot = async (drone, fileName, setSize = false, viewportHeight = 1660, viewportWidth = 1440) => {
   if (setSize) { await drone.protocol.Emulation.setVisibleSize({width: viewportWidth, height: viewportHeight}); }
   const screenshot = await drone.protocol.Page.captureScreenshot({format: 'png', fromSurface: true});
-  fs.writeFileSync(`${fileName}.png`, Buffer.from(screenshot.data, 'base64'));
+  fs.writeFileSync(fileName, Buffer.from(screenshot.data, 'base64'));
+};
+
 /*
  * Returns nothing. Saves html file of the current page using the provided fileName
  */
