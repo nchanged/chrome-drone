@@ -8,7 +8,7 @@ Autonomously control the chrome browser
 
 ## Sample Usage
 
-```
+``` js
 const { createDrone, goTo, setValue, click, evaluate, waitForPageLoad } = require('chrome-drone');
 
 async function stockPrice(symbol) {
