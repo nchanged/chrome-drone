@@ -11,7 +11,7 @@ const { escapeCSSSelector,
  * functions. handleSIGINT must be false until the following issue is resoved
  * https://github.com/GoogleChrome/lighthouse/issues/2797
  */
-exports.createDrone = async ({headless = true, disableGPU = true, port = 0, proxy = false}) => {
+exports.createDrone = async ({headless = true, disableGPU = true, port = 0, proxy = false, overrideUserAgent = false}) => {
   const chromeOptions   = {port:         port,
                            chromeFlags:  [disableGPU ? '--disable-gpu'           : false,
                                           headless   ? '--headless'              : false,
@@ -22,6 +22,7 @@ exports.createDrone = async ({headless = true, disableGPU = true, port = 0, prox
   const remoteInterface = await CDP({port: chromeInstance.port});
   await Promise.all([remoteInterface.Page.enable(), remoteInterface.Runtime.enable(), remoteInterface.Network.enable()]);
   remoteInterface.Network.setExtraHTTPHeaders({headers: {"Accept-Language": "en-US"}});
+  if (overrideUserAgent) { remoteInterface.Network.setUserAgentOverride({userAgent: overrideUserAgent}); }
   return {chrome:   chromeInstance,
           protocol: remoteInterface,
           options:  {typeInterval: 20}};
