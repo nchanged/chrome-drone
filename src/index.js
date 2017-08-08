@@ -16,7 +16,7 @@ exports.createDrone = async ({headless = true, disableGPU = true, port = 0, prox
                            chromeFlags:  [disableGPU ? '--disable-gpu'           : false,
                                           headless   ? '--headless'              : false,
                                           proxy      ? `--proxy-server=${proxy}` : false].filter(n => n),
-                           handleSIGINT: false,
+                           handleSIGINT: true,
                            logLevel:     'error'};
   const chromeInstance  = await chromeLauncher.launch(chromeOptions);
   const remoteInterface = await CDP({port: chromeInstance.port});
@@ -111,6 +111,39 @@ exports.waitForSelector = async (drone, selector, intervalMS=250, timeoutMS=500)
       throw new Error(`Timedout while waiting for: "${selector}"`);
     }
   }
+};
+
+/*
+ * Returns and array of all browser cookies for the current URL.
+ */
+exports.getCookies = async (drone) => {
+  return drone.protocol.Network.getCookies();
+};
+
+/*
+ * Returns and array of all browser cookies.
+ */
+exports.getAllCookies = async (drone) => {
+  return drone.protocol.Network.getAllCookies();
+};
+
+/*
+ * Sets a cookie with the given cookie data; may overwrite equivalent cookies if they exist.
+ * cookie is an object with the following keys:
+ * {url:            Optional if not provided current href is used
+    name:           Required
+    value:          Required
+    domain:         Optional
+    path:           Optional
+    secure:         Optional (boolean defaults to false)
+    httpOnly:       Optional (boolean defaults to false)
+    sameSite:       Optional (Defaults to browser default behavior)
+    expirationDate: Optional (If omitted, the cookie becomes a session cookie)}
+ * https://chromedevtools.github.io/devtools-protocol/tot/Network/#method-setCookie
+ */
+exports.setCookie = async (drone, cookie) => {
+  if (!cookie.url) { cookie.url = await module.exports.evaluate(drone, `location.href`); }
+  await drone.protocol.Network.setCookie(cookie);
 };
 
 /*
