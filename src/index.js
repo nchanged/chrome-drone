@@ -116,8 +116,14 @@ exports.waitForSelector = async (drone, selector, intervalMS=250, timeoutMS=500)
 /*
  * Returns nothing. Saves screenshot of current page as a png using the provided fileName
  */
-exports.saveScreenshot = async (drone, fileName, setSize = false, viewportHeight = 1660, viewportWidth = 1440) => {
-  if (setSize) { await drone.protocol.Emulation.setVisibleSize({width: viewportWidth, height: viewportHeight}); }
+exports.saveScreenshot = async (drone, fileName, setSize = false, height = false, width = false) => {
+  if (setSize) {
+    await drone.protocol.Emulation.setVisibleSize({width: width, height: height});
+  } else {
+    const scrollHeight = await drone.protocol.Runtime.evaluate({expression: `document.querySelector("body").scrollHeight;`});
+    const scrollWidth = await drone.protocol.Runtime.evaluate({expression: `document.querySelector("body").scrollWidth;`});
+    await drone.protocol.Emulation.setVisibleSize({width: scrollWidth.result.value, height: scrollHeight.result.value});
+  }
   const screenshot = await drone.protocol.Page.captureScreenshot({format: 'png', fromSurface: true});
   fs.writeFileSync(fileName, Buffer.from(screenshot.data, 'base64'));
 };
