@@ -16,7 +16,7 @@ exports.createDrone = async ({headless = true, disableGPU = true, port = 0, prox
                            chromeFlags:  [disableGPU ? '--disable-gpu'           : false,
                                           headless   ? '--headless'              : false,
                                           proxy      ? `--proxy-server=${proxy}` : false].filter(n => n),
-                           handleSIGINT: true,
+                           handleSIGINT: false,
                            logLevel:     'error'};
   const chromeInstance  = await chromeLauncher.launch(chromeOptions);
   const remoteInterface = await CDP({port: chromeInstance.port});
