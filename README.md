@@ -31,7 +31,7 @@ stockPrice('QTWO')
 
 ## API
 
-- createDrone({headless = true, disableGPU = true, port = 0, proxy = false, overrideUserAgent = false})
+- createDrone({headless = true, disableGPU = true, port = 0, proxy = false, overrideUserAgent = false, defaultTimeoutMS = 500})
 - goTo(drone, url)
 - setValue(drone, selector, desiredValue)
 - typeValue(drone, selector, value)

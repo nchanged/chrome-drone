@@ -11,7 +11,7 @@ const { escapeCSSSelector,
  * functions. handleSIGINT must be false until the following issue is resoved
  * https://github.com/GoogleChrome/lighthouse/issues/2797
  */
-exports.createDrone = async ({headless = true, disableGPU = true, port = 0, proxy = false, overrideUserAgent = false}) => {
+exports.createDrone = async ({headless = true, disableGPU = true, port = 0, proxy = false, overrideUserAgent = false, defaultTimeoutMS = 500}) => {
   const chromeOptions   = {port:         port,
                            chromeFlags:  [disableGPU ? '--disable-gpu'           : false,
                                           headless   ? '--headless'              : false,
@@ -23,9 +23,10 @@ exports.createDrone = async ({headless = true, disableGPU = true, port = 0, prox
   await Promise.all([remoteInterface.Page.enable(), remoteInterface.Runtime.enable(), remoteInterface.Network.enable()]);
   remoteInterface.Network.setExtraHTTPHeaders({headers: {"Accept-Language": "en-US"}});
   if (overrideUserAgent) { remoteInterface.Network.setUserAgentOverride({userAgent: overrideUserAgent}); }
-  return {chrome:   chromeInstance,
-          protocol: remoteInterface,
-          options:  {typeInterval: 20}};
+  return {chrome:           chromeInstance,
+          protocol:         remoteInterface,
+          defaultTimeoutMS: defaultTimeoutMS,
+          options:          {typeInterval: 20}};
 };
 
 /*
@@ -101,14 +102,15 @@ exports.exist = async (drone, selector) => {
  * The page is pulled every intervalMS to check if the selector is present. If the
  * timeoutMS value is exceeded an error will be thrown.
  */
-exports.waitForSelector = async (drone, selector, intervalMS=250, timeoutMS=500) => {
+exports.waitForSelector = async (drone, selector, intervalMS=250, timeoutMS=false) => {
   const startTime = (new Date()).getTime();
+  const timeout = timeoutMS ? timeoutMS : drone.defaultTimeoutMS;
   while (true) {
     const selectorExists = await module.exports.exist(drone, selector);
     if (selectorExists === true) { return; }
     await sleep(intervalMS);
     const delta = ((new Date()).getTime()) - startTime;
-    if (delta > timeoutMS) {
+    if (delta > timeout) {
       throw new Error(`Timedout while waiting for: "${selector}"`);
     }
   }
