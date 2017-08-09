@@ -169,3 +169,22 @@ exports.saveHtml = async (drone, fileName) => {
   const html = await module.exports.evaluate(drone, `document.body.innerHTML`);
   fs.writeFileSync(fileName, html);
 };
+
+/*
+ * Returns nothing. Updates the value of a select box with the provided
+ * selector with the provided value, and calls the select inputs onchange method
+ */
+exports.updateSelectBoxByValue = async (drone, selector, value) => {
+  await module.exports.evaluate(drone, `document.querySelector('${escapeCSSSelector(selector)}').value = '${value}'`);
+  console.log(`document.querySelector('${escapeCSSSelector(selector)}').value = '${value}'`);
+  await module.exports.evaluate(drone, `document.querySelector('${escapeCSSSelector(selector)}').onchange()`);
+};
+
+/*
+ * Returns nothing. Updates the value of a select box with the provided
+ * selector with the provided index value, and calls the select inputs onchange method
+ */
+exports.updateSelectBoxByIndex = async (drone, selector, index) => {
+  let value = await module.exports.evaluate(drone, `document.querySelector('${escapeCSSSelector(selector)}').options[${index}].value`);
+  await module.exports.updateSelectBoxByValue(drone, selector, value);
+};

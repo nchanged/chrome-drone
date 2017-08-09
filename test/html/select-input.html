@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+  <select name="carl" id="editor-select" onChange=setEditor()>
+    <option value="editor-1">Vim</option>
+    <option value="editor-2">Emacs</option>
+    <option value="editor-3">Atom</option>
+  </select>
+  <p id="selected-editor">Selected Editor: None</p>
+
+  <script type="text/javascript">
+    function setEditor() {
+      let select = document.getElementById('editor-select');
+      let display = document.getElementById('selected-editor');
+      display.innerText = `Selected Editor: ${select.value}`;
+    }
+  </script>
+</body>
+</html>
