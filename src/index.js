@@ -178,7 +178,6 @@ exports.saveHtml = async (drone, fileName) => {
  */
 exports.updateSelectBoxByValue = async (drone, selector, value) => {
   await module.exports.evaluate(drone, `document.querySelector('${escapeCSSSelector(selector)}').value = '${value}'`);
-  console.log(`document.querySelector('${escapeCSSSelector(selector)}').value = '${value}'`);
   await module.exports.evaluate(drone, `document.querySelector('${escapeCSSSelector(selector)}').onchange()`);
 };
 

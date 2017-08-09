@@ -5,7 +5,7 @@ describe('Testing setting select box value functionality:', () => {
   let drone;
 
   beforeEach(async () => {
-    drone = await sut.createDrone({headless: false});
+    drone = await sut.createDrone({headless: true});
   });
 
   afterEach(async () => {
