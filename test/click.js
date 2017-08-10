@@ -13,7 +13,7 @@ describe('Testing clicking functionality:', () => {
     await drone.chrome.kill();
   });
 
-  it('Can successfully setValue inputs in drone instance', async () => {
+  it('Can successfully click a button', async () => {
     await sut.goTo(drone, `file://${process.env.PWD}/test/html/click.html`);
     await sut.click(drone, '#target-button');
     const actualState = await drone.protocol.Runtime.evaluate({expression: "document.querySelector('#success').innerHTML"});

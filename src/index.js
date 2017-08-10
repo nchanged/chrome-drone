@@ -4,7 +4,8 @@ const CDP            = require('chrome-remote-interface');
 const { escapeCSSSelector,
         evaluateOnNode,
         querySelector,
-        sleep }      = require('./utils');
+        sleep,
+        getSelectorRect }      = require('./utils');
 
 /*
  * Returns a drone onbject that is required as the first parameter to all other
@@ -188,4 +189,14 @@ exports.updateSelectBoxByValue = async (drone, selector, value) => {
 exports.updateSelectBoxByIndex = async (drone, selector, index) => {
   let value = await module.exports.evaluate(drone, `document.querySelector('${escapeCSSSelector(selector)}').options[${index}].value`);
   await module.exports.updateSelectBoxByValue(drone, selector, value);
+};
+
+/*
+ * Returns nothing. Executed for the side effect of doing a left mouse button
+ * down and up event on the element with the provided selector
+ */
+exports.realClick = async (drone, selector) => {
+  const { top, left } = await getSelectorRect(drone, selector);
+  await drone.protocol.Input.dispatchMouseEvent({type: 'mousePressed', x: left, y: top, button: 'left', clickCount: 1});
+  await drone.protocol.Input.dispatchMouseEvent({type: 'mouseReleased', x: left, y: top, button: 'left', clickCount: 1});
 };

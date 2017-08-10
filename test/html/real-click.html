@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Real Click Handler Test Page</title>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" type="text/javascript"></script>
+</head>
+<body>
+
+  <div id="tricky-div"><p>Click this text</p></div>
+  <div id="tricky-div-results"></div>
+
+  <script  type="text/javascript">
+    $("#tricky-div").click(function(e){
+      if(e.originalEvent.isTrusted) {
+        document.getElementById("tricky-div-results").innerHTML = '<p id="tricky-success">Div successfully clicked<\/p>';
+      }
+    });
+  </script>
+</body>
+</html>
