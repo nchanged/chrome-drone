@@ -55,12 +55,12 @@ exports.setValue = async (drone, selector, desiredValue) => {
 exports.typeValue = async (drone, selector, value) => {
   const code = String.raw`let keyUpEvent = new Event('keyup');
                           document.querySelector('${selector}').dispatchEvent(keyUpEvent)`;
-  await drone.protocol.Runtime.evaluate({expression: `document.querySelector("${selector}").focus();`});
+  await module.exports.evaluate(drone, `document.querySelector("${selector}").focus();`);
   value.split('').forEach(async (char) => {
     await drone.protocol.Input.dispatchKeyEvent({type: 'char', text: char});
     await sleep(drone.options.typeInterval);
   });
-  await drone.protocol.Runtime.evaluate({expression: code});
+  await module.exports.evaluate(drone, code);
 };
 
 /*
@@ -78,7 +78,7 @@ exports.click = async (drone, selector) => {
  * provided js is executed in it
  */
 exports.evaluate = async (drone, jsToExecute) => {
-  const response = await drone.protocol.Runtime.evaluate({expression: jsToExecute});
+  const response = await drone.protocol.Runtime.evaluate({expression: jsToExecute, returnByValue: true});
   return response.result.value;
 };
 
@@ -156,9 +156,9 @@ exports.saveScreenshot = async (drone, fileName, setSize = false, height = false
   if (setSize) {
     await drone.protocol.Emulation.setVisibleSize({width: width, height: height});
   } else {
-    const scrollHeight = await drone.protocol.Runtime.evaluate({expression: `document.querySelector("body").scrollHeight;`});
-    const scrollWidth = await drone.protocol.Runtime.evaluate({expression: `document.querySelector("body").scrollWidth;`});
-    await drone.protocol.Emulation.setVisibleSize({width: scrollWidth.result.value, height: scrollHeight.result.value});
+    const scrollHeight = await module.exports.evaluate(drone, `document.querySelector("body").scrollHeight;`);
+    const scrollWidth = await module.exports.evaluate(drone, `document.querySelector("body").scrollWidth;`);
+    await drone.protocol.Emulation.setVisibleSize({width: scrollWidth, height: scrollHeight});
   }
   const screenshot = await drone.protocol.Page.captureScreenshot({format: 'png', fromSurface: true});
   fs.writeFileSync(fileName, Buffer.from(screenshot.data, 'base64'));
