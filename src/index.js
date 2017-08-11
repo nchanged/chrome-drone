@@ -9,8 +9,14 @@ const { escapeCSSSelector,
 
 /*
  * Returns a drone onbject that is required as the first parameter to all other
- * functions. handleSIGINT must be false until the following issue is resoved
- * https://github.com/GoogleChrome/lighthouse/issues/2797
+ * functions.
+ *
+ * NOTES
+ * - handleSIGINT must be false until the following issue is resoved:
+ *   https://github.com/GoogleChrome/lighthouse/issues/2797
+ * - Custom profiles are not usable in conjunction with the --headless flag
+ *   until the following issue is rsolved:
+ *   https://bugs.chromium.org/p/chromedriver/issues/detail?id=1925
  */
 exports.createDrone = async ({headless = true, disableGPU = true, port = 0, proxy = false, overrideUserAgent = false, defaultTimeoutMS = 500}) => {
   const chromeOptions   = {port:         port,
