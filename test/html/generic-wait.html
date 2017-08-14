@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Wait Handler Test Page</title>
+</head>
+<body>
+  <div id="delayed-contents"></div>
+  <script type="text/javascript">
+    window.onload = function () {
+      setTimeout(function() {
+        document.getElementById("delayed-contents").innerHTML = '<p id="thanks-for-waiting">Delayed Gratification<\/p>';
+      }, 1000)
+    }
+  </script>
+</body>
+</html>

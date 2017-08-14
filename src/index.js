@@ -98,6 +98,14 @@ exports.waitForPageLoad = async (drone) => {
 };
 
 /*
+ * Returns nothing executed for the side effect of waiting for the specified
+ * amount of time
+ */
+exports.wait = async (drone, durationMS) => {
+  await sleep(durationMS)
+};
+
+/*
  * Returns boolean indicating if selector is present on the page
  */
 exports.exist = async (drone, selector) => {
