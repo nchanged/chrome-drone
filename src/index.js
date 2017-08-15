@@ -89,6 +89,16 @@ exports.evaluate = async (drone, jsToExecute) => {
   return response.result.value;
 };
 
+/**
+ * Returns the result of evaluating the provided fn in the context of the browser.
+ * You may optionally include ...args which will be passed into your fn
+ */
+exports.evaluateFn = async (drone, fn, ...args) => {
+  const exp      = args && args.length > 0 ? `(${String(fn)}).apply(null, ${JSON.stringify(args)})` : `(${String(fn)}).apply(null)`;
+  const response = await drone.protocol.Runtime.evaluate({expression: exp, returnByValue: true});
+  return response.result.value;
+};
+
 /*
  * Returns nothing executed for the side effect of waiting for the page load
  * event and the provided drone instance
